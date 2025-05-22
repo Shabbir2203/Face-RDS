@@ -1,0 +1,16 @@
+Table Name,Column Name,Data Type,Constraints,Description
+users,user_id,INT,PRIMARY KEY AUTO_INCREMENT,Unique identifier for each user
+users,name,VARCHAR(100),NOT NULL,User's full name
+users,email,VARCHAR(100),UNIQUE NOT NULL,User's email address
+users,password,VARCHAR(255),NOT NULL,Hashed password
+users,created_at,TIMESTAMP,DEFAULT CURRENT_TIMESTAMP,Account creation timestamp
+face_data,face_id,INT,PRIMARY KEY AUTO_INCREMENT,Unique identifier for each face entry
+face_data,user_id,INT,FOREIGN KEY REFERENCES users(user_id),Reference to user table
+face_data,face_encodings,BLOB,NOT NULL,Stored face encoding data
+face_data,date_added,TIMESTAMP,DEFAULT CURRENT_TIMESTAMP,When face was added
+face_data,last_updated,TIMESTAMP,,Last update timestamp
+detection_log,log_id,INT,PRIMARY KEY AUTO_INCREMENT,Unique identifier for each detection
+detection_log,user_id,INT,FOREIGN KEY REFERENCES users(user_id),Reference to user table
+detection_log,timestamp,TIMESTAMP,DEFAULT CURRENT_TIMESTAMP,When detection occurred
+detection_log,confidence,FLOAT,,Confidence score of detection
+detection_log,location,VARCHAR(255),,Location where detection occurred

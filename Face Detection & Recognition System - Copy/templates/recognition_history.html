@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Face Recognition History</h4>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-3">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">Back to Dashboard</a>
+                    <div class="btn-group">
+                        <a href="{{ url_for('recognition_history', working_hours='false') }}" 
+                           class="btn btn-outline-secondary {% if not working_hours %}active{% endif %}">All Hours</a>
+                        <a href="{{ url_for('recognition_history', working_hours='true') }}" 
+                           class="btn btn-outline-secondary {% if working_hours %}active{% endif %}">Working Hours (9AM-5PM)</a>
+                    </div>
+                </div>
+                
+                {% if records %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Person</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>
+                                <td>{{ record.person_name }}</td>
+                                <td>{{ record.detection_date }}</td>
+                                <td>{{ record.detection_time }}</td>
+                                <td>
+                                    {% if record.image_path %}
+                                    <a href="{{ url_for('static', filename=record.image_path) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename=record.image_path) }}" 
+                                             class="img-thumbnail" style="max-height: 80px;" alt="{{ record.person_name }}">
+                                    </a>
+                                    {% else %}
+                                    <span class="text-muted">No image</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    {% if working_hours %}
+                    No recognition records found during working hours (9AM-5PM).
+                    {% else %}
+                    No recognition records found. The system will record faces when they are detected.
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

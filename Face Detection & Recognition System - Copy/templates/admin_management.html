@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Admin Management</h4>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light btn-sm">Back to Admin Dashboard</a>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header bg-dark text-white">
+                                <h5 class="mb-0">Register New Admin</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="{{ url_for('register_admin') }}">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="username" class="form-label">Username</label>
+                                            <input type="text" class="form-control" id="username" name="username" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Create Admin Account</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">Admin Privileges</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Admins have full access to:</p>
+                                <ul>
+                                    <li>Recognition history of all users</li>
+                                    <li>Filter by working hours (9AM-5PM)</li>
+                                    <li>Create new admin accounts</li>
+                                    <li>Manage face database</li>
+                                </ul>
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle"></i> Only create admin accounts for trusted personnel.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Admin Access Links</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ url_for('recognition_history') }}" class="btn btn-info w-100 mb-2">
+                                    <i class="fas fa-history"></i> View All Recognition History
+                                </a>
+                                <p class="small text-muted">Access complete history of all face recognitions</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ url_for('recognition_history', working_hours='true') }}" class="btn btn-warning w-100 mb-2">
+                                    <i class="fas fa-clock"></i> View Working Hours Only
+                                </a>
+                                <p class="small text-muted">View recognitions during 9AM-5PM only</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

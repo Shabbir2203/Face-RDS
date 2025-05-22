@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Admin Dashboard</h4>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-sm">Back to Main Dashboard</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">User Management</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Register and manage administrators for the face recognition system.</p>
+                                <a href="{{ url_for('admin_management') }}" class="btn btn-primary w-100">Admin Management</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-info">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">Recognition History</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">View complete history of all face recognitions in the system.</p>
+                                <a href="{{ url_for('recognition_history') }}" class="btn btn-info w-100">View All Records</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">Face Database</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Manage all registered faces in the system database.</p>
+                                <a href="{{ url_for('known_faces') }}" class="btn btn-success w-100">Manage Faces</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0">Working Hours Report</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">View face recognition records during working hours (9AM-5PM).</p>
+                                <a href="{{ url_for('recognition_history', working_hours='true') }}" class="btn btn-warning w-100">View Working Hours Records</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-secondary">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0">System Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Current admin:</strong> {{ session.username }}</p>
+                                <p><strong>Server time:</strong> <span id="server-time"></span></p>
+                                <p><strong>Working hours:</strong> 9:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateServerTime() {
+    const now = new Date();
+    const timeElement = document.getElementById('server-time');
+    timeElement.textContent = now.toLocaleString();
+}
+
+// Update time every second
+setInterval(updateServerTime, 1000);
+updateServerTime(); // Initial update
+</script>
+{% endblock %} 

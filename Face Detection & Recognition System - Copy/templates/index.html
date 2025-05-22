@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Face Recognition System</h4>
+            </div>
+            <div class="card-body">
+                {% if session.user_type == 'admin' %}
+                <div class="admin-panel mb-4">
+                    <div class="card bg-light">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Admin Panel</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-info text-white">
+                                            <h6 class="mb-0">Recognition Records</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">View the history of all face recognitions with date and time.</p>
+                                            <a href="{{ url_for('recognition_history') }}" class="btn btn-info btn-sm w-100">View History</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-success text-white">
+                                            <h6 class="mb-0">Admin Management</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">Register new administrators to manage the system.</p>
+                                            <a href="{{ url_for('register_admin') }}" class="btn btn-success btn-sm w-100">Register New Admin</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Go to Full Admin Dashboard</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row">
+                    <!-- Left side - Video Feed -->
+                    <div class="col-md-8">
+                        <div class="video-container mb-4">
+                            <img src="{{ url_for('video_feed') }}" class="img-fluid" alt="Live Feed">
+                        </div>
+                        <div class="text-center mb-3">
+                            <small><a href="{{ url_for('admin_login') }}" class="text-muted">Admin Login</a></small>
+                        </div>
+                    </div>
+                    
+                    <!-- Right side - Controls -->
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Register New Face</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="{{ url_for('register_face') }}" id="registerForm">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Enter Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <input type="hidden" name="image" id="capturedImage">
+                                    <button type="button" class="btn btn-primary w-100" onclick="captureAndRegister()">Capture & Register Face</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">Recognize Face</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="{{ url_for('recognize_face_route') }}">
+                                    <button type="submit" class="btn btn-success w-100 mb-2">Recognize Face</button>
+                                </form>
+                                <a href="{{ url_for('recognition_history') }}" class="btn btn-info w-100">View Recognition History</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function captureAndRegister() {
+    const video = document.querySelector('img');
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth || video.naturalWidth;
+    canvas.height = video.videoHeight || video.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    const imageData = canvas.toDataURL('image/jpeg');
+    document.getElementById('capturedImage').value = imageData;
+    document.getElementById('registerForm').submit();
+}
+</script>
+{% endblock %}
